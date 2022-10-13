@@ -28,12 +28,14 @@ const buildMovieList = (ary) => {
   main.innerHTML = '';
   for(let i = 0; i < ary.length; i ++){
     main.innerHTML += `
-    <div>
-      <h2>${ary[i]['Title']}</h2>
-      <img src='${ary[i]['Poster']}'>
-      <br>
-      <p>Date of release: ${ary[i]['Year']}</p>
-      <button data-imdbid=${ary[i]['imdbID']} type="button" class="btn btn-primary">See more</button>
+    <div class='d-flex flex-row p-2 border border-primary rounded mb-3col-10'>
+      <img src='${ary[i]['Poster']}'class='col'>
+      <div class='col-11 p-2'>
+        <h2>${ary[i]['Title']}</h2>
+        <br>
+        <p>Date of release: ${ary[i]['Year']}</p>
+        <button data-imdbid=${ary[i]['imdbID']} type="button" class="btn btn-primary">See more</button>
+      </div>
     </div>
     `;
   }

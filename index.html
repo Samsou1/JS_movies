@@ -10,18 +10,18 @@
   <script defer src="main.js"></script>
 </head>
 <body>
-  <head class="flex">
+  <div class="mb-2 p-2 d-flex flex-column justify-content-center align-items-center">
     <h1>Movie finder</h1>
-    <form id ='form'>
-      <div class="form-group">
+    <form id ='form' class="col-6">
+      <div class="form-group p-2">
         <label for="movieSearchBar">Movies</label>
         <input type="text" class="form-control" id="movieSearchBar" aria-describedby="movieSearchBar" placeholder="Enter movie">
       </div>
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>
-  </head>
+  </div>
   
-  <main class="flex movies">
+  <main class="d-flex flex-column movies align-items-center">
 
   </main>
   <div class="error">
