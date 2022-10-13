@@ -1,11 +1,11 @@
 const apiKey = '5af9d8bf';
 
 const main = document.querySelector('main');
-const movieSearchBar = document.getElementById('movieSearchBar');
+const searchBar = document.querySelector('#movieSearchBar');
 const form = document.querySelector('form');
 const error = document.querySelector('.error');
 const modal = document.querySelector('.modal');
-var span = document.getElementsByClassName("close")[0];
+const span = document.querySelector(".close");
 
 const getMovies = (search)=> {
   fetch(`http://www.omdbapi.com/?apikey=${apiKey}&s=${search.replace(/ /g, '+')}`)
@@ -17,6 +17,8 @@ const getMovies = (search)=> {
       error.innerHTML = "No movie found";
     }else{
       buildMovieList(response['Search']);
+      buildButtonsEventListeners();
+      buildOservers();
     }
   })
   .catch((error) => { 
@@ -27,29 +29,51 @@ const getMovies = (search)=> {
 const buildMovieList = (ary) => {
   main.innerHTML = '';
   for(let i = 0; i < ary.length; i ++){
-    main.innerHTML += `
-    <div class='d-flex flex-row p-2 border border-primary rounded mb-3col-10'>
-      <img src='${ary[i]['Poster']}'class='col'>
-      <div class='col-11 p-2'>
-        <h2>${ary[i]['Title']}</h2>
-        <br>
-        <p>Date of release: ${ary[i]['Year']}</p>
-        <button data-imdbid=${ary[i]['imdbID']} type="button" class="btn btn-primary">See more</button>
-      </div>
-    </div>
-    `;
-  }
-  let buttons = document.querySelectorAll('main > div > button');
-  for(let i = 0; i < buttons.length; i ++){
-    buttons[i].addEventListener('click',function(e){
-      getMovieDetails(this.dataset.imdbid);
-      e.preventDefault();
-    });
+   buildMovie(ary[i]);
   }
 }
 
+const buildOservers = () => {
+  let movies = document.querySelectorAll(".movie")
+  movies.forEach(movie => {
+    movieObserver.observe(movie);
+  })
+}
+
+const movieObserver = new IntersectionObserver((entries) => {
+  entries.forEach ((entry) => {
+    if(entry.isIntersecting){
+      entry.target.classList.remove('hidden')
+    }else{
+      entry.target.classList.add('hidden')
+    }
+  })
+}, {threshold:0.2})
+
+const buildMovie = (movie)=> {
+  main.innerHTML += `
+  <div class='d-flex flex-row p-2 border border-primary rounded mb-3 col-10 movie hidden'>
+    <img src='${movie['Poster']}'class='col'>
+    <div class='col-11 p-2'>
+      <h2>${movie['Title']}</h2>
+      <br>
+      <p>Date of release: ${movie['Year']}</p>
+      <button data-imdbid=${movie['imdbID']} type="button" class="btn btn-primary">See more</button>
+    </div>
+  </div>
+  `;
+}
+
+const buildButtonsEventListeners = () => {
+  let buttons = document.querySelectorAll('main > div > div > button');
+  buttons.forEach(button => button.addEventListener('click',function(e){
+    getMovieDetails(this.dataset.imdbid);
+    e.preventDefault();
+  }))
+}
+
 form.addEventListener('submit', (e) => {
-  getMovies(movieSearchBar.value);
+  getMovies(searchBar.value);
   e.preventDefault();
 });
 
