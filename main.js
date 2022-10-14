@@ -8,7 +8,7 @@ const modal = document.querySelector('.modal');
 const span = document.querySelector(".close");
 
 const getMovies = (search)=> {
-  fetch(`http://www.omdbapi.com/?apikey=${apiKey}&s=${search.replace(/ /g, '+')}`)
+  fetch(`https://www.omdbapi.com/?apikey=${apiKey}&s=${search.replace(/ /g, '+')}`)
   .then((response) => {
     return response.json();
   })
@@ -78,7 +78,7 @@ form.addEventListener('submit', (e) => {
 });
 
 const getMovieDetails = (id) => {
-  fetch(`http://www.omdbapi.com/?apikey=${apiKey}&i=${id}&plot=full`)
+  fetch(`https://www.omdbapi.com/?apikey=${apiKey}&i=${id}&plot=full`)
   .then((response) => {
     return response.json();
   })
